@@ -13,9 +13,9 @@ class RootTableViewController: UITableViewController {
     let titleArray:[String] =
         ["AVSpeechSynthesizer",
          "音频播放"]
-    let viewControllerArray:[UIViewController] =
-        [SpeechViewController(),
-         AudioListsViewController()]
+    let viewControllerArray:[UIViewController.Type] =
+        [SpeechViewController.self,
+         AudioListsViewController.self]
     let cellId = "cellId"
     
     
@@ -65,7 +65,7 @@ class RootTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let vc:UIViewController = self.viewControllerArray[indexPath.row]
-        self.navigationController?.pushViewController(vc, animated: true)
+        let vc:UIViewController.Type = self.viewControllerArray[indexPath.row]
+        self.navigationController?.pushViewController(vc.init(), animated: true)
     }
 }

@@ -15,11 +15,10 @@ class AudioListsViewController: UITableViewController {
         let sources = Bundle.paths(forResourcesOfType: "mp3", inDirectory: Bundle.main.resourcePath!)
         return sources
     }()
-    let player = AudioPlayer()
+    var player = AudioPlayer()
     
     deinit {
-        player.delegate = nil
-        player.stop()
+        print("\(self) 销毁了")
     }
 
     override func viewDidLoad() {
@@ -29,6 +28,12 @@ class AudioListsViewController: UITableViewController {
         self.clearsSelectionOnViewWillAppear = false
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "mp3Cell")
         self.tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        player.stop()
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,7 +60,6 @@ class AudioListsViewController: UITableViewController {
             let url:URL = URL(fileURLWithPath: path)
             cell.textLabel?.text = url.lastPathComponent
         }
-        
         
         return cell
     }
@@ -87,4 +91,12 @@ extension AudioListsViewController : AudioPlayerDelegate {
     func audioPlayer(_ audioPlayer: AudioPlayer, didUpdateProgressionTo time: TimeInterval, percentageRead: Float) {
         print("进度 \(time) \(percentageRead)")
     }
+    // Control Center / Lockscreen
+    override func remoteControlReceived(with event: UIEvent?) {
+        if let event = event {
+            player.remoteControlReceived(with: event)
+        }
+    }
 }
+
+

@@ -22,8 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
         
+        // 接受远程控制事件
+        application.beginReceivingRemoteControlEvents()
+        
         // 配置音频会话
-        session_application(application, didFinishLaunchingWithOptions: launchOptions)
+        // session_application(application, didFinishLaunchingWithOptions: launchOptions)
         
         return true
     }
